@@ -1,2 +1,2 @@
 #exclude prometheus data
-prometheus/data/*
+prometheus/data/
