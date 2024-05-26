@@ -6,22 +6,19 @@ docker
 docker-compose
 
 # STEP 1. build exporter
-cd to cloned directory and run
+cd to cloned directory, thenrun below command to build speedtest-exporter image and bring up all containers
 ```
-docker build -t speedtest-exporter .
+docker build -t speedtest-exporter . && docker-compose up -d
 ```
-# STEP 2. bring up containers
-```
-docker-compose up -d
-```
-# STEP 3. access grafana dashboard in browser
+
+# STEP 2. access grafana dashboard in browser
 Access http://localhost:3000.  
 Initial user password admin/admin  
 Check internet-speed dashboard in grafana  
 Prometheus instance will be available at:
 http://localhost:9090/
 
-# STEP 4. stop containers
+# STEP 3. stop containers
 ```
 docker-compose down
 ```
