@@ -1,7 +1,11 @@
 FROM python:3.9-slim
 
-RUN pip install speedtest-cli prometheus_client --progress-bar off
+WORKDIR /app
 
-COPY speedtest_exporter.py /speedtest_exporter.py
+COPY requirements.txt .
 
-CMD ["python", "/speedtest_exporter.py"]
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY speedtest_exporter.py .
+
+CMD ["python", "speedtest_exporter.py"]
