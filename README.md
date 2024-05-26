@@ -18,3 +18,7 @@ Check internet-speed dashboard in grafana
 
 Prometheus instance will be available at:
 http://localhost:9090/
+
+# Disclaimer
+The metrics are collected using speedtest-cli. All metrics are not entirely reliable as per the details in:
+https://github.com/sivel/speedtest-cli
