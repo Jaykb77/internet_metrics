@@ -22,7 +22,7 @@ docker run -d -e PUSH_IP="1.2.3.4" -e CLIENT_NAME="Bob" --restart unless-stopped
 ```
 # STEP 3. access grafana dashboard in browser
 Access http://<PUSH_IP>:3000.  
-Initial user password admin/admin  
+Initial user password admin/5tr0nGpa55  
 Check internet-speed dashboard in grafana  
 
 # STEP 4. stop containers
