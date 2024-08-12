@@ -2,14 +2,11 @@
 from prometheus_client import CollectorRegistry, Gauge, push_to_gateway
 import speedtest
 import time
-import sys
+import os
 
-IP='push_gateway_ip'
-# IP='sys.argv[1]'
+IP=os.getenv('PUSH_IP', 'No environment variable set')
 PUSHGATEWAY = 'http://' + IP + ':9091'
 JOB_NAME = 'internet_speed_test'
-
-#PUSHGATEWAY = 'http://13.82.181.248:9091'
 
 def run_speed_test():
     s = speedtest.Speedtest(secure=True)

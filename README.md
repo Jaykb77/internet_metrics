@@ -7,18 +7,16 @@ docker
 # STEP 1. build exporter
 cd to cloned directory and run
 ```
-docker build -t speedtest-exporter --build-arg PUSH_IP=<IP> .
+docker build -t speedtest-exporter .
 ```
 # STEP 2. run container
 ```
-docker run -d --restart unless-stopped speedtest-exporter 
+docker run -d -e PUSH_IP="<PUSH_IP>" --restart unless-stopped speedtest-exporter
 ```
 # STEP 3. access grafana dashboard in browser
 Access http://<PUSH_IP>:3000.  
 Initial user password admin/admin  
 Check internet-speed dashboard in grafana  
-Prometheus instance will be available at:
-http://<PUSH_IP>:9090/
 
 # STEP 4. stop containers
 ```
