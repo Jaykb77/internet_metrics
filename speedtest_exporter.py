@@ -4,9 +4,11 @@ import speedtest
 import time
 import os
 
-IP=os.getenv('PUSH_IP', 'No environment variable set')
-PUSHGATEWAY = 'http://' + IP + ':9091'
-JOB_NAME = 'internet_speed_test'
+pushIp=os.getenv('PUSH_IP', 'No environment variable PUSH_IP set')
+pushGateway = 'http://' + pushIp + ':9091'
+jobName = 'internet_speed_test'
+clientNameLabel = 'client_name'
+clientNameValue = os.getenv('CLIENT_NAME', 'No environment variable CLIENT_NAME set')
 
 def run_speed_test():
     s = speedtest.Speedtest(secure=True)
@@ -14,24 +16,29 @@ def run_speed_test():
     download_speed = s.download()
     upload_speed = s.upload()
     ping = s.results.ping
-    return download_speed, upload_speed, ping
+#
+    result_dict=s.results.dict()
+    isp = result_dict['client']['isp']
+    clientIp = result_dict['client']['ip']
+#
+    return download_speed, upload_speed, ping, isp, clientIp
 
-def push_metrics(download, upload, ping):
+def push_metrics(download, upload, ping, isp, clientIp):
     registry = CollectorRegistry()
-    download_gauge = Gauge('speedtest_download_speed', 'Download speed in Mbps', registry=registry)
-    upload_gauge = Gauge('speedtest_upload_speed', 'Upload speed in Mbps', registry=registry)
-    ping_gauge = Gauge('speedtest_ping', 'Ping in milliseconds', registry=registry)
-    download_gauge.set(download)
-    upload_gauge.set(upload)
-    ping_gauge.set(ping)
-    push_to_gateway(PUSHGATEWAY, job=JOB_NAME, registry=registry)
+    download_gauge = Gauge('speedtest_download_speed', 'Download speed in Mbps', labelnames=[clientNameLabel,'isp','client_ip'], registry=registry)
+    upload_gauge = Gauge('speedtest_upload_speed', 'Upload speed in Mbps', labelnames=[clientNameLabel,'isp','client_ip'],registry=registry)
+    ping_gauge = Gauge('speedtest_ping', 'Ping in milliseconds', labelnames=[clientNameLabel,'isp','client_ip'],registry=registry)
+    download_gauge.labels(clientNameValue,isp,clientIp).set(download)
+    upload_gauge.labels(clientNameValue,isp,clientIp).set(upload)
+    ping_gauge.labels(clientNameValue,isp,clientIp).set(ping)
+    push_to_gateway(pushGateway, job=jobName, registry=registry)
 
 def main():
     while True:
         try:
-            download_speed, upload_speed, ping = run_speed_test()
+            download_speed, upload_speed, ping, isp, clientIp = run_speed_test()
             print(f"Download: {download_speed} Mbps, Upload: {upload_speed} Mbps, Ping: {ping} ms")
-            push_metrics(download_speed, upload_speed, ping)
+            push_metrics(download_speed, upload_speed, ping, isp, clientIp)
         except Exception as e:
             print(f"Error: {e}")
         

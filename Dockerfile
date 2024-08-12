@@ -1,6 +1,6 @@
 #build with docker build -t speedtest-exporter .
 
-FROM python:3.9-slim
+FROM python:3.9-alpine
 
 WORKDIR /app
 

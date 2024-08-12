@@ -10,8 +10,15 @@ cd to cloned directory and run
 docker build -t speedtest-exporter .
 ```
 # STEP 2. run container
+PUSH_IP : IP address or hostname of the prometheus push gateway
+CLIENT_NAME : A label to identify the client
 ```
-docker run -d -e PUSH_IP="<PUSH_IP>" --restart unless-stopped speedtest-exporter
+docker run -d -e PUSH_IP="<PUSH_IP>" -e CLIENT_NAME="<CLIENT_NAME>" --restart unless-stopped speedtest-exporter
+```
+
+For example,
+```
+docker run -d -e PUSH_IP="1.2.3.4" -e CLIENT_NAME="Bob" --restart unless-stopped speedtest-exporter
 ```
 # STEP 3. access grafana dashboard in browser
 Access http://<PUSH_IP>:3000.  
