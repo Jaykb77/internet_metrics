@@ -2,28 +2,27 @@
 Docker compose to setup internet speed exporter with prometheus and grafana to monitor and visualize
 
 # requirements
-docker  
-docker-compose
+docker
 
 # STEP 1. build exporter
 cd to cloned directory and run
 ```
-docker build -t speedtest-exporter .
+docker build -t speedtest-exporter --build-arg PUSH_IP=<IP> .
 ```
-# STEP 2. bring up containers
+# STEP 2. run container
 ```
-docker-compose up -d
+docker run -d --restart unless-stopped speedtest-exporter 
 ```
 # STEP 3. access grafana dashboard in browser
-Access http://localhost:3000.  
+Access http://<PUSH_IP>:3000.  
 Initial user password admin/admin  
 Check internet-speed dashboard in grafana  
 Prometheus instance will be available at:
-http://localhost:9090/
+http://<PUSH_IP>:9090/
 
 # STEP 4. stop containers
 ```
-docker-compose down
+docker stop <container-id>
 ```
 
 # How it looks
