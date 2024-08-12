@@ -21,9 +21,9 @@ def run_speed_test():
 
 def push_metrics(download, upload, ping):
     registry = CollectorRegistry()
-    download_gauge = Gauge('internet_download_speed_mbps', 'Download speed in Mbps', registry=registry)
-    upload_gauge = Gauge('internet_upload_speed_mbps', 'Upload speed in Mbps', registry=registry)
-    ping_gauge = Gauge('internet_ping_ms', 'Ping in milliseconds', registry=registry)
+    download_gauge = Gauge('speedtest_download_speed', 'Download speed in Mbps', registry=registry)
+    upload_gauge = Gauge('speedtest_upload_speed', 'Upload speed in Mbps', registry=registry)
+    ping_gauge = Gauge('speedtest_ping', 'Ping in milliseconds', registry=registry)
     download_gauge.set(download)
     upload_gauge.set(upload)
     ping_gauge.set(ping)
