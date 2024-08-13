@@ -31,7 +31,7 @@ def push_metrics(download, upload, ping, isp, clientIp):
     download_gauge.labels(clientNameValue,isp,clientIp).set(download)
     upload_gauge.labels(clientNameValue,isp,clientIp).set(upload)
     ping_gauge.labels(clientNameValue,isp,clientIp).set(ping)
-    push_to_gateway(pushGateway, job=jobName, registry=registry)
+    push_to_gateway(pushGateway, job=jobName, registry=registry, grouping_key={'instance': clientNameValue})
 
 def main():
     while True:
